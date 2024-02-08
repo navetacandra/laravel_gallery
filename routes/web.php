@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LikePhotoController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\RegisterController;
@@ -35,6 +36,11 @@ Route::controller(PhotoController::class)->middleware('auth')->name('photo.')->g
     Route::get('/photo/{photo_id}', 'index')->name('index');
     Route::get('/post', 'postPhoto')->name('post');
     Route::post('/post', 'postPhotoProcess')->name('postProcess');
+});
+
+Route::controller(LikePhotoController::class)->middleware('auth')->name('like_photo.')->group(function() {
+    Route::post('/like', 'like')->name('like');
+    Route::post('/unlike', 'unlike')->name('unlike');
 });
 
 Route::get('/logout', function() {
