@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikePhotoController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -46,6 +47,11 @@ Route::controller(LikePhotoController::class)->middleware('auth')->name('like_ph
 
 Route::controller(CommentController::class)->middleware('auth')->name('comment.')->group(function() {
     Route::post('/comment', 'post')->name('post');
+});
+
+Route::controller(ProfileController::class)->name('profile.')->group(function() {
+    Route::get('/profile', 'index')->name('index');
+    Route::get('/profile/{user_id}', 'people')->name('people');
 });
 
 Route::get('/logout', function() {
