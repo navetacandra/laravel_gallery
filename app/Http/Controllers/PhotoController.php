@@ -14,11 +14,13 @@ class PhotoController extends Controller
     {
         $data = Photo::find($photo_id)
             ->with('user')
+            ->with('comments')
             ->withCount('likes')
-            ->withExists('likedByUser', function($query) {
+            ->withExists('likedByUser', function ($query) {
                 $query->where('user_id', auth()->user()->id);
             })
             ->first();
+            
         return view('pages.photo', compact('data'));
     }
 
@@ -38,18 +40,18 @@ class PhotoController extends Controller
 
         $photo = $request->file('photo');
         $photo_path = $photo->store('photos', ['disk' => 'public']);
-        
-        if($photo_path == null) {
+
+        if ($photo_path == null) {
             Alert::error('Foto gagal di-upload!');
             return redirect()->back();
         }
-        
+
         $photo_post = Photo::create([
             ...$request->only(['judul_foto', 'deskripsi_foto']),
             'user_id' => auth()->user()->id,
             'lokasi_file' => $photo_path
         ]);
-        if($photo_post) {
+        if ($photo_post) {
             Alert::success('Foto berhasil di-upload!');
             return redirect()->route('home');
         } else {

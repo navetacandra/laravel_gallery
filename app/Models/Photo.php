@@ -18,6 +18,10 @@ class Photo extends Model
         return $this->hasMany(LikesPhoto::class, 'photo_id', 'id');
     }
 
+    public function comments() {
+        return $this->hasMany(CommentPhoto::class, 'photo_id', 'id')->with('user')->orderBy('created_at', 'desc');
+    }
+
     public function likedByUser() {
         return $this->hasMany(LikesPhoto::class, 'photo_id', 'id')->where('user_id', auth()->user()->id);
     }

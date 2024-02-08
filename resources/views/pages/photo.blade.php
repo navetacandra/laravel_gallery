@@ -3,10 +3,14 @@
 @section('content')
     <div class="d-flex justify-content-center">
         <div class="w-50 my-3 p-1 rounded shadow-lg">
-            <div class="ms-3 mt-3 mb-4 d-flex justify-content-start align-items-center mb-2">
-                <img src="https://dummyimage.com/640x1:1/" alt="profile-picture" class="img-fluid rounded-circle"
-                    width="50">
-                <span class="ms-2 fs-5">{{ $data->user->nama }}</span>
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="/profile/{{ $data->user->id }}"
+                    class="ms-3 mt-3 mb-4 d-flex justify-content-start align-items-center mb-2 text-decoration-none">
+                    <img src="https://dummyimage.com/640x1:1/" alt="profile-picture" class="img-fluid rounded-circle"
+                        width="50">
+                    <span class="ms-2 fs-5 text-dark">{{ $data->user->nama }}</span>
+                </a>
+                <p class="text-muted fs-6 me-3">{{ date('d-m-Y', strtotime($data->created_at)) }}</p>
             </div>
             <img class="img-fluid mx-auto d-block" src="{{ asset('storage/' . $data->lokasi_file) }}"
                 alt="{{ $data->judul_foto }}">
@@ -16,8 +20,8 @@
                         @csrf
                         <input type="hidden" name="photo_id" value="{{ $data->id }}">
                         <button class="btn p-0" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem"
-                                fill="currentColor" class="bi bi-heart-fill text-danger" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" fill="currentColor"
+                                class="bi bi-heart-fill text-danger" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
                                     d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
                             </svg>
@@ -49,25 +53,29 @@
             <ul class="list-group">
                 <li class="list-group-item border-start-0 border-end-0 d-flex flex-column">
                     <p class="fs-5 fw-semibold">Komentar</p>
-                    <form action="" method="POST">
+                    <form action="{{ route('comment.post') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="photo_id" value="{{ $data->id }}">
                         <div class="input-group">
-                            <textarea class="form-control" aria-label="Comment content"></textarea>
-                            <button class="input-group-text">Send</button>
+                            <textarea class="form-control" name="isi_komentar" aria-label="Comment content"></textarea>
+                            <button type="submit" class="input-group-text">Send</button>
                         </div>
                     </form>
                 </li>
-                <li class="list-group-item border-start-0 border-end-0 d-flex flex-column">
-                    <div class="d-flex justify-content-start align-items-center mb-2">
-                        <img src="https://dummyimage.com/640x1:1/" alt="profile-picture" class="img-fluid rounded-circle"
-                            width="50">
-                        <span class="ms-2 fs-5">Anon</span>
-                    </div>
-                    <span class="text-muted fs-6">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque amet at possimus veniam tempora!
-                        Corrupti ratione inventore vitae neque, at expedita aliquid maxime perferendis sed consectetur
-                        voluptate in, nam voluptatibus?
-                    </span>
-                </li>
+                @foreach ($data->comments as $comments)
+                    <li class="list-group-item border-start-0 border-end-0 d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="/profile/{{ $comments->user->id }}"
+                                class="d-flex justify-content-start align-items-center mb-2 text-decoration-none">
+                                <img src="https://dummyimage.com/640x1:1/" alt="profile-picture"
+                                    class="img-fluid rounded-circle" width="50">
+                                <span class="ms-2 fs-5 text-dark">{{ $comments->user->nama }}</span>
+                            </a>
+                            <p class="text-muted fs-6">{{ date('d-m-Y', strtotime($comments->created_at)) }}</p>
+                        </div>
+                        <span class="text-muted fs-6">{{ $comments->isi_komentar }}</span>
+                    </li>
+                @endforeach
             </ul>
         </div>
     </div>
