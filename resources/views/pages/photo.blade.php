@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-center">
         <div class="w-50 my-3 p-1 rounded shadow-lg">
             <div class="d-flex justify-content-between align-items-center">
-                <a href="/profile/{{ $data->user->id }}"
+                <a href="{{ route('profile.people', $data->user->id) }}"
                     class="ms-3 mt-3 mb-4 d-flex justify-content-start align-items-center mb-2 text-decoration-none">
                     <img src="https://dummyimage.com/640x1:1/" alt="profile-picture" class="img-fluid rounded-circle"
                         width="50">
@@ -62,18 +62,18 @@
                         </div>
                     </form>
                 </li>
-                @foreach ($data->comments as $comments)
+                @foreach ($data->comments as $comment)
                     <li class="list-group-item border-start-0 border-end-0 d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-center">
-                            <a href="/profile/{{ $comments->user->id }}"
+                            <a href="{{ route('profile.people', $comment->user->id) }}"
                                 class="d-flex justify-content-start align-items-center mb-2 text-decoration-none">
                                 <img src="https://dummyimage.com/640x1:1/" alt="profile-picture"
                                     class="img-fluid rounded-circle" width="50">
-                                <span class="ms-2 fs-5 text-dark">{{ $comments->user->nama }}</span>
+                                <span class="ms-2 fs-5 text-dark">{{ $comment->user->nama }}</span>
                             </a>
-                            <p class="text-muted fs-6">{{ date('d-m-Y', strtotime($comments->created_at)) }}</p>
+                            <p class="text-muted fs-6">{{ date('d-m-Y', strtotime($comment->created_at)) }}</p>
                         </div>
-                        <span class="text-muted fs-6">{{ $comments->isi_komentar }}</span>
+                        <span class="text-muted fs-6">{{ $comment->isi_komentar }}</span>
                     </li>
                 @endforeach
             </ul>

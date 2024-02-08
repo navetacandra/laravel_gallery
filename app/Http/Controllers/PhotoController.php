@@ -20,8 +20,14 @@ class PhotoController extends Controller
                 $query->where('user_id', auth()->user()->id);
             })
             ->first();
-            
+
         return view('pages.photo', compact('data'));
+    }
+    
+    public function home()
+    {
+        $photos = Photo::with('user')->orderBy('created_at', 'desc')->get();
+        return view('pages.home', compact('photos'));
     }
 
     public function postPhoto()

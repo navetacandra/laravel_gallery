@@ -20,9 +20,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.app');
-})->name('home');
+Route::get('/', [PhotoController::class, 'home'])->name('home');
 
 Route::controller(RegisterController::class)->name('register.')->group(function() {
     Route::get('/register', 'index')->name('index');
