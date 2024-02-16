@@ -12,18 +12,17 @@ class PhotoController extends Controller
 {
     public function index($photo_id)
     {
-        $data = Photo::find($photo_id)
-            ->with('user')
+        $data = Photo::with('user')
             ->with('comments')
             ->withCount('likes')
             ->withExists('likedByUser', function ($query) {
                 $query->where('user_id', auth()->user()->id);
             })
-            ->first();
+            ->find($photo_id);
 
         return view('pages.photo', compact('data'));
     }
-    
+
     public function home()
     {
         $photos = Photo::with('user')->orderBy('created_at', 'desc')->get();

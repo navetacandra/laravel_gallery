@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    @foreach ($photos as $photo)
-        <div class="d-flex justify-content-center">
-            <div class="w-50 my-3 p-1 rounded shadow-lg">
+    <div class="row justify-content-center align-items-start">
+        @foreach ($photos as $photo)
+            <div class="col-10 col-md-3 mx-1 my-3 p-1 rounded shadow-lg">
                 <div class="d-flex justify-content-between align-items-center">
                     <a href="{{ route('profile.people', $photo->user->id) }}"
                         class="ms-3 mt-3 mb-4 d-flex justify-content-start align-items-center mb-2 text-decoration-none">
@@ -22,6 +22,6 @@
                     </div>
                 </a>
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
 @endsection
